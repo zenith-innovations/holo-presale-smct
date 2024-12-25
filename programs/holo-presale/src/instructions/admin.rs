@@ -41,9 +41,7 @@ pub fn update_pool(
 ) -> Result<()> {
     let pool = &mut ctx.accounts.pool;
 
-    if ctx.accounts.admin.key() != pool.admin_wallet {
-        return Err(CustomError::WrongAdminWallet.into());
-    }
+    pool.validate_admin(&ctx.accounts.admin.key())?;
 
     let _ = pool.update(
         is_active,
