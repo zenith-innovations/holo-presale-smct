@@ -25,6 +25,17 @@ pub fn initialize_pool(
         end_time,
     ));
 
+    emit!(PoolInitialized {
+        is_active,
+        referral_fee_percentage,
+        referral_lockdown,
+        admin_wallet,
+        fund_wallet,
+        sale_amount,
+        start_time,
+        end_time,
+    });
+
     Ok(())
 }
 
@@ -41,8 +52,6 @@ pub fn update_pool(
 ) -> Result<()> {
     let pool = &mut ctx.accounts.pool;
 
-    pool.validate_admin(&ctx.accounts.admin.key())?;
-
     let _ = pool.update(
         is_active,
         referral_fee_percentage,
@@ -53,6 +62,18 @@ pub fn update_pool(
         start_time,
         end_time,
     );
+
+    emit!(PoolUpdated {
+        is_active,
+        referral_fee_percentage,
+        referral_lockdown,
+        admin_wallet,
+        fund_wallet,
+        sale_amount,
+        start_time,
+        end_time,
+    });
+
     Ok(())
 }
 
@@ -75,9 +96,37 @@ pub struct InitializePool<'info> {
 
 #[derive(Accounts)]
 pub struct UpdatePool<'info> {
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = admin.key() == pool.fund_wallet @ CustomError::WrongAdminWallet
+    )]
     pub admin: Signer<'info>,
 
     #[account(mut)]
     pub pool: Box<Account<'info, Pool>>,
+}
+
+
+#[event]
+pub struct PoolUpdated {
+    pub is_active: bool,
+    pub referral_fee_percentage: u64,
+    pub referral_lockdown: bool,
+    pub admin_wallet: Pubkey,
+    pub fund_wallet: Pubkey,
+    pub sale_amount: u64,
+    pub start_time: i64,
+    pub end_time: i64,
+}
+
+#[event]
+pub struct PoolInitialized {
+    pub is_active: bool,
+    pub referral_fee_percentage: u64,
+    pub referral_lockdown: bool,
+    pub admin_wallet: Pubkey,
+    pub fund_wallet: Pubkey,
+    pub sale_amount: u64,
+    pub start_time: i64,
+    pub end_time: i64,
 }

@@ -6,7 +6,7 @@ pub mod state;
 
 use crate::instructions::*;
 
-declare_id!("8wREhkFJdobMnAT5NMwv33zuzW6UnvCbqUY63QwLkr86");
+declare_id!("AawKke79hDe8sa3Luheb7ckktrqAviH8n7M3Ugi5tQBy");
 
 #[program]
 pub mod holo_presale {

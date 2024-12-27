@@ -5,7 +5,7 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-holo_presale = "8wREhkFJdobMnAT5NMwv33zuzW6UnvCbqUY63QwLkr86"
+holo_presale = "AawKke79hDe8sa3Luheb7ckktrqAviH8n7M3Ugi5tQBy"
 
 [registry]
 url = "https://api.apr.dev"

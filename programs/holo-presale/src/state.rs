@@ -4,15 +4,15 @@ use crate::errors::CustomError;
 
 #[account]
 pub struct Pool {
-    pub is_active: bool, // if true, pool is active
+    pub is_active: bool,              // if true, pool is active
     pub referral_fee_percentage: u64, // 100 = 1%
     pub referral_lockdown: bool,      // if true, referral fee is transfer to admin wallet
     pub admin_wallet: Pubkey,         // admin wallet
-    pub fund_wallet: Pubkey, // fund wallet
-    pub sale_amount: u64,    // sale amount in SOL
-    pub sold_amount: u64,    // sold amount in SOL
-    pub start_time: i64,     // start time in UTC seconds
-    pub end_time: i64,       // end time in UTC seconds
+    pub fund_wallet: Pubkey,          // fund wallet
+    pub sale_amount: u64,             // sale amount in SOL
+    pub sold_amount: u64,             // sold amount in SOL
+    pub start_time: i64,              // start time in UTC seconds
+    pub end_time: i64,                // end time in UTC seconds
 }
 
 impl Pool {
@@ -66,13 +66,6 @@ impl Pool {
 
     pub fn get_admin_configuration(&self) -> Result<Pool> {
         Ok(self.clone())
-    }
-
-    pub fn validate_admin(&self, signer: &Pubkey) -> Result<()> {
-        if self.admin_wallet != *signer {
-            return Err(CustomError::WrongAdminWallet.into());
-        }
-        Ok(())
     }
 
     pub fn buy(&mut self, amount: u64) -> Result<()> {
